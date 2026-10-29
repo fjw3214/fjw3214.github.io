@@ -1,63 +1,72 @@
-[Hux Blog](https://huangxuan.me)
-================================
+# FJW 的博客
 
-> I never expect this becomes popular.
+以阅读和写作为中心的中文个人博客。Markdown 管理文章，Node.js 构建静态页面，支持 GitHub Pages。
 
-![](http://huangxuan.me/img/blog-desktop.jpg)
+## 本地运行
 
+需要 Node.js 22 或更高版本。
 
-[User Manual 👉](_doc/Manual.md)
---------------------------------------------------
-
-### Getting Started
-
-1. You will need [Ruby](https://www.ruby-lang.org/en/) and [Bundler](https://bundler.io/) to use [Jekyll](https://jekyllrb.com/). Following [Using Jekyll with Bundler](https://jekyllrb.com/tutorials/using-jekyll-with-bundler/) to fullfill the enviromental requirement.
-
-2. Installed dependencies in the `Gemfile`:
-
-```sh
-$ bundle install 
+```bash
+npm ci
+npm start
 ```
 
-3. Serve the website (`localhost:4000` by default):
+打开 http://127.0.0.1:4173 。启动时自动构建；修改内容后重启预览即可更新。
 
-```sh
-$ bundle exec jekyll serve  # alternatively, npm start
+```bash
+npm run build
 ```
 
-### Development (Build From Source)
+构建产物位于 `dist/`。无需 Ruby、数据库或后台服务。
 
-To modify the theme, you will need [Grunt](https://gruntjs.com/). There are numbers of tasks you can find in the `Gruntfile.js`, includes minifing JavaScript, compiling `.less` to `.css`, adding banners to keep the Apache 2.0 license intact, watching for changes, etc. 
+## 写一篇文章
 
-Yes, they were inherited and are extremely old-fashioned. There is no modularization and transpilation, etc.
+在 `posts/` 下创建 Markdown 文件。文件名成为文章地址，例如 `my-first-post.md` 对应 `/posts/my-first-post/`。
 
-Critical Jekyll-related code are located in `_include/` and `_layouts/`. Most of them are [Liquid](https://github.com/Shopify/liquid/wiki) templates.
+```markdown
+---
+title: 我的第一篇文章
+date: '2026-10-29'
+category: 随笔
+tags: [记录, 写作]
+description: 这篇文章的一句话摘要。
+featured: true
+---
 
-This theme uses the default code syntax highlighter of jekyll, [Rouge](http://rouge.jneen.net/), which is compatible with Pygments theme so just pick any pygments theme css (e.g. from [here](http://jwarby.github.io/jekyll-pygments-themes/languages/javascript.html) and replace the content of `highlight.less`.
+## 从这里开始
 
+这里是正文。
+```
 
-### Interesting to know more? Checkout the [full user manual](_doc/Manual.md)!
+- 标题、日期、分类和摘要为必填项；日期使用带引号的 `YYYY-MM-DD`。
+- `featured: true` 设为首页精选，多篇精选时展示日期最新的一篇。
+- 初始文章设置了 `sample: true`，会显示“示例文章”；发布自己的内容时移除这一项。
+- 分类、标签、文章目录、阅读时间、搜索索引、RSS 和站点地图自动生成。
+- 支持表格、代码块、引用；正文中的原始 HTML 不执行。
+- 图片放进 `assets/`，在正文中使用 `/assets/文件名` 引用。
 
+## 个人信息与样式
 
-Other Resources
----------------
+- `site.config.mjs`：博客名称、作者、简介、正式地址和 GitHub 链接。
+- `scripts/build.mjs`：页面结构、关于页面和静态文件生成。
+- `assets/blog.css`：响应式布局与浅色、深色主题。
+- `assets/blog.js`：搜索、分类筛选、主题切换和阅读目录。
 
-Ports
-- [**Hexo**](https://github.com/Kaijun/hexo-theme-huxblog) by @kaijun
-- [**React-SSR**](https://github.com/LucasIcarus/huxpro.github.io/tree/ssr) by @LucasIcarus
+默认正式地址为 `https://fjw3214.github.io`，更换域名时修改配置中的 `url`。
+搜索支持标题、摘要、正文、分类和标签；按 `Ctrl+K`（macOS 为 `⌘K`）或点击导航搜索按钮打开。
+RSS 地址为 `/feed.xml`。
 
-[Starter/Boilerplate](https://github.com/huxpro/huxblog-boilerplate)
-- Out of date. Helps wanted for updating it on par with the main repo
+## GitHub Pages
 
-Translation
-- [🇨🇳  中文文档（有点过时）](https://github.com/Huxpro/huxpro.github.io/blob/master/_doc/README.zh.md)
+`.github/workflows/pages.yml` 会在推送到 `master` 或 `main` 后构建并部署 `dist/`。
+首次使用时，在仓库 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**。
+然后推送或手动运行工作流，默认访问地址为 `https://fjw3214.github.io/`。
 
+本地修改不会自动推送。工作流只有在代码提交并推送到 GitHub、且仓库启用了 Pages 后才会运行。
+部署只使用 `dist/`，不要把整个源码目录直接当作站点目录发布。
 
-License
--------
+## 改造说明
 
-Apache License 2.0.
-Copyright (c) 2015-present Huxpro
-
-Hux Blog is derived from [Clean Blog Jekyll Theme (MIT License)](https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll/)
-Copyright (c) 2013-2016 Blackrock Digital LLC.
+原始 Hux Blog / Jekyll 模板完整保存在 `legacy-hux/`，可随时查阅和恢复，不参与新站点的构建。
+新页面不再加载原作者的广告、统计、评论、社交账号、旧域名或 Service Worker。
+上游 Apache-2.0 许可证保留，来源见 `NOTICE`。
